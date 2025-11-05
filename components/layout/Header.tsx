@@ -2,10 +2,12 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Menu, X, BookOpen, User, GraduationCap, LogIn } from 'lucide-react';
+import { useSession, signOut } from 'next-auth/react';
+import { Menu, X, User, GraduationCap, LogIn, LogOut } from 'lucide-react';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { data: session, status } = useSession();
 
   const navigation = [
     { name: 'Home', href: '/' },
@@ -13,6 +15,10 @@ export default function Header() {
     { name: 'Pricing', href: '/pricing' },
     { name: 'About', href: '/about' },
   ];
+
+  const handleSignOut = async () => {
+    await signOut({ callbackUrl: '/' });
+  };
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
@@ -41,17 +47,29 @@ export default function Header() {
 
           {/* Desktop Actions */}
           <div className="hidden md:flex items-center gap-4">
-            <Link
-              href="/account"
-              className="flex items-center gap-2 text-gray-700 hover:text-primary-600 transition-colors"
-            >
-              <User className="w-5 h-5" />
-              <span className="font-medium">My Account</span>
-            </Link>
-            <Link href="/login" className="btn btn-primary btn-md">
-              <LogIn className="w-5 h-5" />
-              Sign In
-            </Link>
+            {status === 'authenticated' && session?.user ? (
+              <>
+                <Link
+                  href="/account"
+                  className="flex items-center gap-2 text-gray-700 hover:text-primary-600 transition-colors"
+                >
+                  <User className="w-5 h-5" />
+                  <span className="font-medium">{session.user.name || 'My Account'}</span>
+                </Link>
+                <button
+                  onClick={handleSignOut}
+                  className="btn btn-outline btn-md"
+                >
+                  <LogOut className="w-5 h-5" />
+                  Sign Out
+                </button>
+              </>
+            ) : (
+              <Link href="/login" className="btn btn-primary btn-md">
+                <LogIn className="w-5 h-5" />
+                Sign In
+              </Link>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -79,22 +97,37 @@ export default function Header() {
                 </Link>
               ))}
               <div className="flex flex-col gap-3 pt-4 border-t border-gray-200">
-                <Link
-                  href="/account"
-                  className="flex items-center gap-2 text-gray-700 hover:text-primary-600 transition-colors py-2"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  <User className="w-5 h-5" />
-                  <span className="font-medium">My Account</span>
-                </Link>
-                <Link
-                  href="/login"
-                  className="btn btn-primary btn-md w-full"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  <LogIn className="w-5 h-5" />
-                  Sign In
-                </Link>
+                {status === 'authenticated' && session?.user ? (
+                  <>
+                    <Link
+                      href="/account"
+                      className="flex items-center gap-2 text-gray-700 hover:text-primary-600 transition-colors py-2"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      <User className="w-5 h-5" />
+                      <span className="font-medium">{session.user.name || 'My Account'}</span>
+                    </Link>
+                    <button
+                      onClick={() => {
+                        setIsMenuOpen(false);
+                        handleSignOut();
+                      }}
+                      className="btn btn-outline btn-md w-full"
+                    >
+                      <LogOut className="w-5 h-5" />
+                      Sign Out
+                    </button>
+                  </>
+                ) : (
+                  <Link
+                    href="/login"
+                    className="btn btn-primary btn-md w-full"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <LogIn className="w-5 h-5" />
+                    Sign In
+                  </Link>
+                )}
               </div>
             </div>
           </div>
