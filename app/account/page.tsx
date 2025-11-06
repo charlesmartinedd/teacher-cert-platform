@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { User, BookOpen, Award, TrendingUp, Settings, CreditCard, Bell } from 'lucide-react';
+import { User, BookOpen, Award, TrendingUp, Settings, CreditCard } from 'lucide-react';
 import Button from '@/components/ui/Button';
 
 export default function AccountPage() {

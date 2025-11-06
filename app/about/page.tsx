@@ -1,4 +1,4 @@
-import { GraduationCap, Target, Users, Award, Heart, Sparkles } from 'lucide-react';
+import { GraduationCap, Target, Users, Heart, Sparkles } from 'lucide-react';
 import Button from '@/components/ui/Button';
 
 export const metadata = {

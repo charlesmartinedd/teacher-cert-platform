@@ -1,5 +1,4 @@
-import Link from 'next/link';
-import { ArrowRight, BookOpen, Award, Users, TrendingUp, CheckCircle2, Star, MapPin } from 'lucide-react';
+import { ArrowRight, BookOpen, Award, Users, TrendingUp, CheckCircle2, Star } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import ExamCard from '@/components/ui/ExamCard';
 import examsData from '@/data/exams/index.json';

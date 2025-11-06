@@ -19,7 +19,6 @@ interface ExamCardProps {
 export default function ExamCard({
   id,
   name,
-  fullName,
   state,
   description,
   duration,

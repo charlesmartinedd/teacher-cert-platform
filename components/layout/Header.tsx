@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Menu, X, BookOpen, User, GraduationCap, LogIn } from 'lucide-react';
+import { Menu, X, User, GraduationCap, LogIn } from 'lucide-react';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
